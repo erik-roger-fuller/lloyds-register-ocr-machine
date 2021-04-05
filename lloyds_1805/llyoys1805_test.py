@@ -18,7 +18,6 @@ def display_singles_near_you(single_lines):
 num = random.randint(50, 500)
 num = "{:03d}".format(num)
 
-
 #filename = f"HECROSS1805/ROS1805Ship_jp2/ROS1805Ship_0{num}.jp2"
 filename, num = f"HECROSS1805/ROS1805Ship_jp2/ROS1805Ship_0258.jp2" , 258
 #num = 258
@@ -39,11 +38,10 @@ def textread(roi):
     return text
 
 def intread(roi):
-    custom_config = r'outputbase digits'
+    custom_config = r'--psm 7 outputbase digits'
     text = pytesseract.image_to_string(line, config=custom_config)
     text = text.replace("\n", "")
     return text
-
 
 display_singles_near_you(single_lines)
 for i, line in enumerate(single_lines):
