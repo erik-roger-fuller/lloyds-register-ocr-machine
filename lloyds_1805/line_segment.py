@@ -8,22 +8,22 @@ def upscale(image, scale_factor):
     width = int(image.shape[1] * scale_percent / 100)
     height = int(image.shape[0] * scale_percent / 100)
     dim = (width, height)
-    resized = cv2.resize(image, dim, interpolation=cv2.INTER_CUBIC)
+    resized = cv2.resize(image, dim, interpolation=cv2.INTER_NEAREST)#INTER_CUBIC
     return resized
 
 def remove_noise(image):
-    return cv2.medianBlur(image, 3)
+    return cv2.medianBlur(image, 7)
 # thresholding
 def thresholding(image):
     return cv2.threshold(image, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
 # dilation
 def dilate(image):
     kernel = np.ones((3, 3), np.uint8)
-    return cv2.dilate(image, kernel, iterations=4)
+    return cv2.dilate(image, kernel, iterations=2)
 # erosion
 def erode(image):
     kernel = np.ones((3,3), np.uint8)
-    return cv2.erode(image, kernel, iterations=3)
+    return cv2.erode(image, kernel, iterations=2)
 # opening - erosion followed by dilation
 def opening(image):
     kernel = np.ones((3, 3), np.uint8)
@@ -70,14 +70,13 @@ def img_processing(img):
 
 def preprocess_for_ocr(image, scale_factor):
     image = upscale(image, scale_factor)
-    image = cv2.GaussianBlur(image, (3, 3), 0)
-    image = brightness_contrast_adj(image=image, alpha=1.4, beta=-200)
+    image = brightness_contrast_adj(image=image, alpha=1.8, beta=-200)
     #image = remove_noise(image)
-
+    image = cv2.GaussianBlur(image, (7, 7), 0)
     image = cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]#thresholding(image)
     image = dilate(image)
-    image = erode(image)
-    image = opening(image)
+    #image = erode(image)
+    #image = opening(image)
     #image = canny(image)
     return image
 
