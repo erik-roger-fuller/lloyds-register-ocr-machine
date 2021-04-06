@@ -1,5 +1,5 @@
 # lloyds-register-ocr-machine
-a program to OCR and then sort the corpus of LLoy'ds registers currently being digitzed by the Lloyd's register foundation. The eventual goal of this is to create dataset with which detailed historical reserach can be performed. 
+a program to OCR and then sort the corpus of LLoy'ds registers currently being digitzed by the Lloyd's register foundation. The eventual goal of this is to create a dataset with which detailed historical reserach can be performed. 
 
 # Lloyd's Register OCR machine
 Lloyd's Register is a printed artifact of the birth of modern markets in insurance, shipping and financial speculation. Its roots go back to the the 1600's, but in its present form, since 1765 until the present day it is a list of ships and owners with data such as insurable condition and normal trade routes. In addition, Lloyd's itself (no relation to the bank) has set about digitizing all manuscripts in their collection, in line with their new status as a nonprofit. However, the OCR of these registers is quite innacurate, in that besides missed letters, it has also scanned the letters in unstructured form. As these registers are in the public domain, this seemed like an ideal introductory project to cv. 
