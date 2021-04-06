@@ -11,7 +11,8 @@ def upscale(image, scale_factor):
     return resized
 
 def remove_noise(image, nsize):
-    return cv2.medianBlur(image, nsize)
+    cleaned = cv2.medianBlur(image, nsize) #input_image=image, kernel_size=nsize)
+    return cleaned
 # thresholding
 def thresholding(image):
     return cv2.threshold(image, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]

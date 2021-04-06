@@ -32,8 +32,6 @@ def houghp_boxfind(edges, adj ):
     xcenter = np.mean(xcenters)
     rightedge = int(np.percentile(xcenters, 95)) + 10
     print(rightedge)
-    #print(xcenter)
-    #print(ycenter) int(xcenter-1400)
 
     top_left = (int(rightedge-2300), int(ycenter-2000))
     bottom_right = (rightedge, int(ycenter+1900))
@@ -49,11 +47,12 @@ def houghp_boxfind(edges, adj ):
 def horizontal_hijinks(crop):
     horizontal = np.copy(crop)
     horizontal1 = horizontal[0:horizontal.shape[0] , 400:int(horizontal.shape[1]-100)]
-    horizontal = horizontal1
+
     # Specify size on horizontal axis
     cols = horizontal.shape[1]
     horizontal_size = cols // 10
 
+    #cv2.imread(horizontal)
     # Create structure element for extracting horizontal lines through morphology operations
     horizontalStructure = cv2.getStructuringElement(cv2.MORPH_RECT, (horizontal_size, 15))
     wholeline = cv2.getStructuringElement(cv2.MORPH_RECT, (cols, 12))
