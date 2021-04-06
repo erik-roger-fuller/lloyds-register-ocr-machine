@@ -1,10 +1,9 @@
 import cv2
-import pytesseract
-from pytesseract import Output
 import numpy as np
 from numpy import random
 from line_segment import *
 from text_processing import *
+from image_editing import *
 
 def display_singles_near_you(single_lines):
     for single_line in single_lines:
@@ -14,12 +13,9 @@ def display_singles_near_you(single_lines):
 
 #text box size is : 2288 wide by 3588 wide
 #259 x 359?? or 13:18 if rounded up to 2600 x 3600
-#from img_proc_func import cv2_img_pipe, bounding_box_crop, single_lines
 
 num = random.randint(50, 500)
 num = "{:03d}".format(num)
-
-
 num = 470
 filename = f"HECROSS1805/ROS1805Ship_jp2/ROS1805Ship_0{num}.jp2"
 #filename, num = f"HECROSS1805/ROS1805Ship_jp2/ROS1805Ship_0258.jp2" , 258

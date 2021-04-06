@@ -1,85 +1,6 @@
 import cv2
-import pytesseract
 import numpy as np
-
-
-"""Image processsing"""
-def upscale(image, scale_factor):
-    scale_percent = scale_factor * 100
-    width = int(image.shape[1] * scale_percent / 100)
-    height = int(image.shape[0] * scale_percent / 100)
-    dim = (width, height)
-    resized = cv2.resize(image, dim, interpolation=cv2.INTER_NEAREST)#INTER_CUBIC
-    return resized
-
-def remove_noise(image, nsize):
-    return cv2.medianBlur(image, nsize)
-# thresholding
-def thresholding(image):
-    return cv2.threshold(image, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
-# dilation
-def dilate(image):
-    kernel = np.ones((3, 3), np.uint8)
-    return cv2.dilate(image, kernel, iterations=2)
-# erosion
-def erode(image):
-    kernel = np.ones((3,3), np.uint8)
-    return cv2.erode(image, kernel, iterations=2)
-# opening - erosion followed by dilation
-def opening(image):
-    kernel = np.ones((3, 3), np.uint8)
-    return cv2.morphologyEx(image, cv2.MORPH_OPEN, kernel)
-# canny edge detection
-def canny(image):
-    return cv2.Canny(image, 50, 150, apertureSize=3)
-
-def apply_filter(image):
-    """Define a 5X5 kernel and apply the filter to gray scale image
-    Args: image: np.array  Returnsfiltered: np.array"""
-    kernel = np.ones((35, 35), np.float32) / 15
-    filtered = cv2.filter2D(image, -1, kernel)
-    return filtered
-
-def brightness_contrast_adj(image, alpha, beta):
-    #alpha = 1.7 # Simple contrast control
-    #beta = (-155)    # Simple brightness control
-    adj = cv2.convertScaleAbs(image, alpha=alpha, beta=beta)
-    return image
-
-def top_crop(img):
-    y , x = img.shape[0] , img.shape[1]
-    roi = img[200:(y-100), 75:(x-75)]
-    #print(roi.shape)
-    return roi
-
-def rectrangle_crop(img, top_left, bottom_right):
-    left, top = top_left[0], top_left[1]
-    right, bottom = bottom_right[0], bottom_right[1]
-    roi = img[top:bottom , left:right]
-    print(top ,bottom , left, right)
-    return roi
-
-def img_processing(img):
-    img = top_crop(img)
-    grey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    #filtered = apply_filter(grey)
-    adj = brightness_contrast_adj(image=grey, alpha=1.7 , beta=-155)
-    thresh = thresholding(adj)
-    # Apply edge detection method on the image
-    edges = canny(thresh)
-    return edges, grey
-
-def preprocess_for_ocr(image, scale_factor):
-    image = upscale(image, scale_factor)
-    image = brightness_contrast_adj(image=image, alpha=1.8, beta=-200)
-    #image = remove_noise(image)
-    image = cv2.GaussianBlur(image, (7, 7), 0)
-    image = cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]#thresholding(image)
-    image = dilate(image)
-    #image = erode(image)
-    #image = opening(image)
-    #image = canny(image)
-    return image
+from image_editing import *
 
 def houghp_boxfind(edges, adj ):
     minLineLength = 1000
@@ -124,7 +45,6 @@ def houghp_boxfind(edges, adj ):
     #cv2.imwrite('houghlines6.jpg',crop)
     print("crop is done!")
     return crop
-
 
 def horizontal_hijinks(crop):
     horizontal = np.copy(crop)
