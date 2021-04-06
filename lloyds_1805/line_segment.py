@@ -2,6 +2,7 @@ import cv2
 import pytesseract
 import numpy as np
 
+
 """Image processsing"""
 def upscale(image, scale_factor):
     scale_percent = scale_factor * 100
@@ -11,8 +12,8 @@ def upscale(image, scale_factor):
     resized = cv2.resize(image, dim, interpolation=cv2.INTER_NEAREST)#INTER_CUBIC
     return resized
 
-def remove_noise(image):
-    return cv2.medianBlur(image, 7)
+def remove_noise(image, nsize):
+    return cv2.medianBlur(image, nsize)
 # thresholding
 def thresholding(image):
     return cv2.threshold(image, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
@@ -127,8 +128,8 @@ def houghp_boxfind(edges, adj ):
 
 def horizontal_hijinks(crop):
     horizontal = np.copy(crop)
-    horizontal = horizontal[0:horizontal.shape[0] , 400:int(horizontal.shape[1]-100)]
-
+    horizontal1 = horizontal[0:horizontal.shape[0] , 400:int(horizontal.shape[1]-100)]
+    horizontal = horizontal1
     # Specify size on horizontal axis
     cols = horizontal.shape[1]
     horizontal_size = cols // 10
@@ -138,7 +139,7 @@ def horizontal_hijinks(crop):
     wholeline = cv2.getStructuringElement(cv2.MORPH_RECT, (cols, 12))
 
     # Apply morphology operations
-    horizontal = cv2.medianBlur(horizontal, 39)
+    horizontal = remove_noise(horizontal, 39)
     horizontal = cv2.threshold(horizontal, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
     horizontal = cv2.dilate(horizontal, horizontalStructure, iterations=2)
 
