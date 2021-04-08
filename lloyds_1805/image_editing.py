@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+from cv2 import medianBlur
 
 """Image processsing"""
 def upscale(image, scale_factor):
@@ -11,21 +12,23 @@ def upscale(image, scale_factor):
     return resized
 
 def remove_noise(image, nsize):
-    cleaned = cv2.medianBlur(image, nsize) #input_image=image, kernel_size=nsize)
-    return cleaned
-# thresholding
-def thresholding(image):
+    #if image is not None:
+    #    print("remove noise exists!")
+    image = cv2.medianBlur(image, nsize) #input_image=image, kernel_size=nsize)
+    return image
+
+def thresholding(image):# thresholding
     return cv2.threshold(image, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
-# dilation
-def dilate(image):
+
+def dilate(image):# dilation
     kernel = np.ones((3, 3), np.uint8)
     return cv2.dilate(image, kernel, iterations=2)
-# erosion
-def erode(image):
+
+def erode(image):# erosion
     kernel = np.ones((3,3), np.uint8)
     return cv2.erode(image, kernel, iterations=2)
-# opening - erosion followed by dilation
-def opening(image):
+
+def opening(image):# opening - erosion followed by dilation
     kernel = np.ones((3, 3), np.uint8)
     return cv2.morphologyEx(image, cv2.MORPH_OPEN, kernel)
 # canny edge detection
@@ -55,7 +58,7 @@ def rectrangle_crop(img, top_left, bottom_right):
     left, top = top_left[0], top_left[1]
     right, bottom = bottom_right[0], bottom_right[1]
     roi = img[top:bottom , left:right]
-    print(top ,bottom , left, right)
+    print("rectangle:  ",top ,bottom , left, right)
     return roi
 
 def img_processing(img):
@@ -68,8 +71,7 @@ def img_processing(img):
     edges = canny(thresh)
     return edges, grey
 
-def preprocess_for_ocr(image, scale_factor):
-    image = upscale(image, scale_factor)
+def preprocess_for_ocr(image, scale_factor, boundaries):
     image = brightness_contrast_adj(image=image, alpha=1.8, beta=-200)
     #image = remove_noise(image)
     image = cv2.GaussianBlur(image, (7, 7), 0)
