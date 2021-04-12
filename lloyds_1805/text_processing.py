@@ -110,6 +110,9 @@ def location_classify(name):
 
     return name
 
+def underwriter_sub(underwriter):
+    underwriter = re.sub(r'[C]....[&][C][o]', "Capt&Co.", underwriter)
+
 def year_sub(condition):
     condition = re.sub(r'[V][1]\b', 'A 1', condition)
     condition = re.sub(r'^(\d\d)', r'18\1', condition)
@@ -138,10 +141,6 @@ def intread(roi):
     """    p = re.compile(r'\d+')
     text = p.findall(text)"""
     return text
-
-
-
-
 
 """for contour in contours:
 print(contour)

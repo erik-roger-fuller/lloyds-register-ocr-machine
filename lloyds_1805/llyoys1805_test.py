@@ -20,8 +20,8 @@ def display_singles_near_you(single_lines):
 
 num = random.randint(50, 500)
 num = "{:03d}".format(num)
-#num = 258 #num = 498 #num = 238 #num = 405 #num = '075'
 
+#num = 258 #num = 498 #num = 238 #num = 405 #num = '075'
 
 filename = f"HECROSS1805\\ROS1805Ship_jp2\\ROS1805Ship_0{num}.jp2"
 #filename, num = f"HECROSS1805/ROS1805Ship_jp2/ROS1805Ship_0258.jp2" , 258
@@ -46,6 +46,7 @@ single_lines, single_lines_boxes = get_line_regions(horizontal=horizontal, verti
 
 names = []
 #display_singles_near_you(single_lines)
+
 for i in range(0, len(single_lines)):
     line = single_lines[i]
     line_boxes = single_lines_boxes[i]

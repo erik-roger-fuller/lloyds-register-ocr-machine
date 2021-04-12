@@ -51,6 +51,7 @@ def horizontal_hijinks(crop):
     cols = horizontal.shape[1]
     horizontal_size = cols // 10
     #cv2.imread(horizontal)
+
     # Create structure element for extracting horizontal lines through morphology operations
     horizontalStructure = cv2.getStructuringElement(cv2.MORPH_RECT, (horizontal_size, 15))
     wholeline = cv2.getStructuringElement(cv2.MORPH_RECT, (cols, 12))
@@ -64,7 +65,6 @@ def horizontal_hijinks(crop):
     #cv2.imwrite(f'horizontal_{num}.jpg',horizontal)
     print("Horizont is done!")
     return horizontal
-
 
 def get_line_regions(horizontal, vertical, crop, num):
     regions = np.array(np.mean(horizontal, axis=1))
@@ -134,16 +134,12 @@ def get_contour_precedence(contour):
     x_loc = origin[0]
     return x_loc
 
-
 def ocr_boundings(line, line_boxes):
     contours, hierarchy = cv2.findContours(line_boxes, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-
     ocr_boxes = []
     contours.sort(key=lambda x: get_contour_precedence(x))
-
     for cnt in contours:
         #cv2.drawContours(line, [cnt], 0, (0, 255, 0), 3)
-
         x, y, w, h = cv2.boundingRect(cnt)
         #print(w)
         if w < 100:
@@ -157,10 +153,6 @@ def ocr_boundings(line, line_boxes):
     return ocr_boxes
 
 """
-
-        
-        
-        
         cv2.imshow("single_lines", cropped_contour)
         cv2.waitKey(0)
         cv2.destroyAllWindows()

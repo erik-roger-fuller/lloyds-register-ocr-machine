@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 from cv2 import medianBlur
+#from cv2 import dnn_
 
 """Image processsing"""
 def upscale(image, scale_factor):
@@ -60,6 +61,7 @@ def rectrangle_crop(img, top_left, bottom_right):
     roi = img[top:bottom , left:right]
     print("rectangle:  ",top ,bottom , left, right)
     return roi
+
 def adjust_gamma(image, gamma):
     # build a lookup table mapping the pixel values [0, 255] to
     # their adjusted gamma values
@@ -96,12 +98,9 @@ def img_processing(img):
 def preprocess_for_ocr(image, scale_factor, line_boxes):
     image = upscale(image, scale_factor)
     line_boxes = upscale(line_boxes, 5)
-
     image = adjust_gamma(image, gamma=0.11)
     #image = cv2.GaussianBlur(image, (7, 7), 0)
     image = brightness_contrast_adj(image=image, alpha=5, beta=-200)
-
-
     image = cv2.GaussianBlur(image, (9, 9), 0)
     image = unsharp_mask(image, amount=10)
 
@@ -114,14 +113,10 @@ def preprocess_for_ocr(image, scale_factor, line_boxes):
     image = cv2.fastNlMeansDenoising(src=image, h=10)
     image = brightness_contrast_adj(image=image, alpha=5, beta=150)
 
-
-
     image = cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]#thresholding(image)
     image = erode(image)
     image = dilate(image)
 
     return image, line_boxes
 
-"""
-
-    """
+"""    """
